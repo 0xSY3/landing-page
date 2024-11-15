@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import localFont from "next/font/local";
 import "./globals.css";
 
-import { Navigation } from "@/components/navigation";
+import { Navigation } from "@/components/Navigation";
 import { HelloNearContract, NetworkId } from "@/config";
 
 import { NearContext, Wallet } from "@/wallets/near";
@@ -15,14 +15,9 @@ const wallet = new Wallet({
   createAccessKeyFor: HelloNearContract,
 });
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+const giuconda = localFont({
+  src: "./fonts/Giuconda Regular.woff",
   variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
   weight: "100 900",
 });
 
@@ -40,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${giuconda.variable} antialiased bg-[#fbfbe4] text-[#151515]`}
       >
         <NearContext.Provider value={{ wallet, signedAccountId }}>
           <Navigation />
