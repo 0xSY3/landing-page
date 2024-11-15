@@ -55,14 +55,14 @@ export const Navigation = () => {
         {pathName === "/" ? (
           <Link
             href="/app"
-            className="font-semibold px-4 py-2 border-[#151515] border rounded-full ml-auto"
+            className="px-8 py-2 border-[#151515] border rounded-full ml-auto"
           >
             Launch App
           </Link>
         ) : (
           <div className="ml-auto inline-flex">
             <button
-              className="font-bold px-4 py-2 border-[#151515] border rounded-full"
+              className="px-8 py-2 border-[#151515] border rounded-full"
               onClick={action}
             >
               {label}
