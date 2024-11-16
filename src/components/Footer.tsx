@@ -59,18 +59,18 @@ export function Footer() {
           viewport={{ once: true }}
           className="grid grid-cols-2 md:grid-cols-12 gap-8 pb-12 border-b border-[#151515]/10"
         >
-          {/* Brand Section */}
           <motion.div
             variants={itemVariants}
             className="col-span-2 md:col-span-4"
           >
             <Link href="/" className="inline-block mb-6">
               <Image
-                src="/logo.svg"
-                alt="NexusFlow Logo"
-                width={120}
+                src="/logo_black.png"
+                alt="NexusFi"
+                width={40}
                 height={32}
               />
+              NexusFi
             </Link>
             <p className="text-[#151515]/70 mb-6">
               Revolutionizing cross-chain DeFi with seamless index investing and
@@ -131,7 +131,7 @@ export function Footer() {
           viewport={{ once: true }}
           className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#151515]/70"
         >
-          <p>© 2024 NexusFlow. All rights reserved.</p>
+          <p>© 2024 NexusFi. All rights reserved.</p>
           <div className="flex items-center gap-8">
             <button className="hover:text-[#151515] transition-colors">
               Cookie Settings
