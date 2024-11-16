@@ -1,38 +1,38 @@
 "use client";
-import { getIndexChange } from "@/lib/GetSymbolPrice";
 import { Index } from "@/types";
 import { useEffect, useState } from "react";
 import { ArrowDownRight, ArrowUpRight, Loader2 } from "lucide-react";
+import { getIndexAPR, getIndexChange } from "@/lib/getStats";
 
 interface CardProps {
   index: Index;
 }
 
 export const Card: React.FC<CardProps> = ({ index }) => {
-  const [modalVisible, setModalVisible] = useState(false);
   const [priceChange, setPriceChange] = useState<number | null>(null);
+  const [apr, setAPR] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const getPrices = async () => {
+  const getStats = async () => {
     try {
-      const change = await getIndexChange(index.symbols);
-      setPriceChange(change);
+      const [changeValue, aprValue] = await Promise.all([
+        getIndexChange(index.symbols),
+        getIndexAPR(index.symbols),
+      ]);
+      setPriceChange(changeValue);
+      setAPR(aprValue);
     } catch (error) {
-      console.error("Error fetching price change:", error);
+      console.error("Error fetching stats:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getPrices();
-    const interval = setInterval(getPrices, 30000);
+    getStats();
+    const interval = setInterval(getStats, 30000);
     return () => clearInterval(interval);
   }, [index.symbols]);
-
-  const handleModal = () => {
-    setModalVisible(true);
-  };
 
   const renderPriceChange = () => {
     if (loading) {
@@ -67,14 +67,44 @@ export const Card: React.FC<CardProps> = ({ index }) => {
     );
   };
 
+  const renderAPR = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center gap-1">
+          <Loader2 className="h-3 w-3 animate-spin" />
+        </div>
+      );
+    }
+
+    if (apr === null) {
+      return <span className="text-gray-500">-</span>;
+    }
+
+    const isPositive = apr >= 0;
+    const absoluteAPR = Math.abs(apr);
+
+    return (
+      <div
+        className={`flex items-center gap-1 font-medium ${
+          isPositive ? "text-green-500" : "text-red-500"
+        }`}
+      >
+        <span>{absoluteAPR.toFixed(2)}%</span>
+      </div>
+    );
+  };
+
   return (
-    <div
-      onClick={handleModal}
-      className="p-5 bg-white/50 border border-[#151515] rounded-lg w-full hover:bg-white/60 transition-colors cursor-pointer"
-    >
-      <h2 className="text-lg font-bold">
-        {index.symbols.map((symbol) => symbol.symbol).join("-")}
-      </h2>
+    <div className="p-5 bg-white/50 border border-[#151515] rounded-lg w-full hover:bg-white/60 transition-colors">
+      <div className="flex flex-row w-full justify-between items-center">
+        <h2 className="text-lg font-bold">
+          {index.symbols.map((symbol) => symbol.symbol).join("-")}
+        </h2>
+        <div className="flex items-center gap-2">
+          <span className="text-sm opacity-50">APR:</span>
+          {renderAPR()}
+        </div>
+      </div>
       <div className="flex flex-row mt-10 justify-between">
         <div className="flex flex-col gap-2">
           <span className="text-sm opacity-50">Underlying Assets</span>
@@ -89,7 +119,7 @@ export const Card: React.FC<CardProps> = ({ index }) => {
             ))}
           </div>
         </div>
-        <div className="flex flex-col gap-2 justify-between">
+        <div className="flex flex-col gap-2 justify-between items-end">
           <span className="text-sm opacity-50">24hr Change</span>
           {renderPriceChange()}
         </div>

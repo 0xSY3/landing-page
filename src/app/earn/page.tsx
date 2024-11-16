@@ -1,5 +1,8 @@
+"use client";
 import { Card } from "@/components/Card";
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Index } from "@/types";
+import { useState } from "react";
 
 const indices: Index[] = [
   {
@@ -12,7 +15,7 @@ const indices: Index[] = [
       {
         symbol: "ETH",
         icon: "/icons/ethereum.png",
-        percentange: 30.0,
+        percentange: 50.0,
       },
     ],
   },
@@ -52,14 +55,39 @@ const indices: Index[] = [
 ];
 
 export default function Earn() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<Index | null>(null);
+
+  const handleSelectIndex = (index: Index) => {
+    setSelectedIndex(index);
+    handleModal();
+  };
+
+  const handleModal = () => {
+    setModalVisible(true);
+  };
+
   return (
     <div className="min-h-screen pt-28 px-20">
       <h1 className="text-2xl">Earn</h1>
       <div className="flex flex-row justify-between mt-10 gap-5">
         {indices.map((index, indexKey) => (
-          <Card key={indexKey} index={index} />
+          <div
+            key={indexKey}
+            onClick={() => handleSelectIndex(index)}
+            className="cursor-pointer w-full"
+          >
+            <Card key={indexKey} index={index} />
+          </div>
         ))}
       </div>
+      {selectedIndex && (
+        <ConfirmationModal
+          index={selectedIndex}
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+        />
+      )}
     </div>
   );
 }

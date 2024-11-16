@@ -42,7 +42,7 @@ export const Navigation = () => {
           <Link href="/" className="opacity-50">
             Home
           </Link>
-          <Link href="/docs" className="opacity-50">
+          <Link href="https://github.com/Nexusfi-org" className="opacity-50">
             Docs
           </Link>
           <Link href="/about" className="opacity-50">
