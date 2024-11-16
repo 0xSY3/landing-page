@@ -89,7 +89,7 @@ export const Card: React.FC<CardProps> = ({ index }) => {
             ))}
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 justify-between">
           <span className="text-sm opacity-50">24hr Change</span>
           {renderPriceChange()}
         </div>
