@@ -54,7 +54,7 @@ export const Navigation = () => {
         </div>
         {pathName === "/" ? (
           <Link
-            href="/app"
+            href="/earn"
             className="px-8 py-2 border-[#151515] border rounded-full ml-auto"
           >
             Launch App

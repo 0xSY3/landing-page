@@ -50,7 +50,7 @@ export function HeroSection() {
           transition={{ delay: 0.8, duration: 0.6 }}
         >
           <Link
-            href="/app"
+            href="/earn"
             className="px-8 py-4 bg-[#151515] text-[#fbfbe4] rounded-full hover:bg-gray-800 transition-colors"
           >
             Launch App
