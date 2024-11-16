@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Wallet, Coins, Network, LineChart, Lock } from "lucide-react";
+import { Network, LineChart, Lock } from "lucide-react";
 
 const roadmapItems = [
   {

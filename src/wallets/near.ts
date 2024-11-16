@@ -74,8 +74,10 @@ export class Wallet {
         setupSender(),
         setupBitteWallet(),
         setupEthereumWallets({
-          wagmiConfig: wagmiConfig as any,
-          web3Modal: web3Modal as any,
+          //@ts-ignore
+          wagmiConfig: wagmiConfig,
+          //@ts-ignore
+          web3Modal: web3Modal,
           alwaysOnboardDuringSignIn: true,
         }),
       ],

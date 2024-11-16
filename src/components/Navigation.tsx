@@ -7,10 +7,7 @@ import { Github } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export const Navigation = () => {
-  const {
-    signedAccountId,
-    wallet,
-  }: { signedAccountId: string | null; wallet: any } = useContext(NearContext);
+  const { signedAccountId, wallet } = useContext(NearContext);
   const [action, setAction] = useState<() => void>(() => {});
   const [label, setLabel] = useState("Loading...");
   const pathName = usePathname();

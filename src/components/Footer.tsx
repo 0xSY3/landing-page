@@ -95,7 +95,7 @@ export function Footer() {
           </motion.div>
 
           {/* Links Sections */}
-          {Object.entries(footerLinks).map(([category, links], index) => (
+          {Object.entries(footerLinks).map(([category, links]) => (
             <motion.div
               key={category}
               variants={itemVariants}
