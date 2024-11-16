@@ -1,6 +1,7 @@
 "use client";
 import { Card } from "@/components/Card";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { CreateIndexModal } from "@/components/CreateIndexModal";
 import { Index } from "@/types";
 import { useState } from "react";
 
@@ -56,6 +57,7 @@ const indices: Index[] = [
 
 export default function Earn() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [createIndexModalVisible, setCreateIndexModalVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<Index | null>(null);
 
   const handleSelectIndex = (index: Index) => {
@@ -66,10 +68,21 @@ export default function Earn() {
   const handleModal = () => {
     setModalVisible(true);
   };
+  const handleCreateIndexModal = () => {
+    setCreateIndexModalVisible(true);
+  };
 
   return (
     <div className="min-h-screen pt-28 px-20">
-      <h1 className="text-2xl">Earn</h1>
+      <div className="flex flex-row justify-between">
+        <h1 className="text-2xl">Earn</h1>
+        <button
+          onClick={handleCreateIndexModal}
+          className="border border-[#151515] px-8 py-2 rounded-full"
+        >
+          Create Index
+        </button>
+      </div>
       <div className="flex flex-row justify-between mt-10 gap-5">
         {indices.map((index, indexKey) => (
           <div
@@ -88,6 +101,11 @@ export default function Earn() {
           onClose={() => setModalVisible(false)}
         />
       )}
+      <CreateIndexModal
+        open={createIndexModalVisible}
+        onOpenChange={setCreateIndexModalVisible}
+        onCreateIndex={() => {}}
+      />
     </div>
   );
 }
