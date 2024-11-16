@@ -29,7 +29,7 @@ export const Navigation = () => {
 
   return (
     <nav className="w-full">
-      <div className="fixed w-full flex flex-row gap-20 p-6 items-center">
+      <div className="fixed w-full flex flex-row gap-20 p-6 items-center bg-[#fbfbe4]">
         <Link href="/" className="inline-flex gap-4 items-center">
           <Image
             priority
