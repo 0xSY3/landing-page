@@ -26,7 +26,6 @@ export const Card: React.FC<CardProps> = ({ index }) => {
 
   useEffect(() => {
     getPrices();
-    // Refresh every 30 seconds
     const interval = setInterval(getPrices, 30000);
     return () => clearInterval(interval);
   }, [index.symbols]);
@@ -77,7 +76,7 @@ export const Card: React.FC<CardProps> = ({ index }) => {
         {index.symbols.map((symbol) => symbol.symbol).join("-")}
       </h2>
       <div className="flex flex-row mt-10 justify-between">
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2">
           <span className="text-sm opacity-50">Underlying Assets</span>
           <div className="flex flex-row gap-2">
             {index.symbols.map((symbol, symbolKey) => (
