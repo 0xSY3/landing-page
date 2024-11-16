@@ -27,7 +27,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[425px] p-8">
+      <DialogContent className="sm:max-w-[425px] p-8 bg-[#fdfdf2] border-2 border-[#151515]">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle className="text-xl font-semibold">
             {index.symbols.map((symbol) => symbol.symbol).join("-")}
@@ -53,7 +53,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                   type="text"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="pr-16"
+                  className="pr-16 border-[#151515]"
                 />
                 <span className="absolute right-3 top-2.5 text-orange-500">
                   Max
@@ -75,7 +75,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             <h3 className="text-base font-medium mb-4">Token Composition</h3>
             <div className="grid gap-4">
               {index.symbols.map((symbol, symbolKey) => (
-                <div className="p-4 border rounded-lg">
+                <div className="p-4 border border-[#151515] rounded-lg">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <img
@@ -101,8 +101,10 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline">Reset Compositions</Button>
-            <Button className="bg-black hover:bg-black/90">Buy</Button>
+            <Button variant="outline" className="bg-[#fdfdf2] border-[#151515]">
+              Reset Compositions
+            </Button>
+            <Button className="bg-[#151515] hover:bg-black/90">Buy</Button>
           </div>
         </div>
       </DialogContent>

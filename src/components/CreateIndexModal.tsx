@@ -151,7 +151,7 @@ export const CreateIndexModal: React.FC<CreateIndexModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className=" p-8">
+      <DialogContent className=" p-8 bg-[#fdfdf2] border-2 border-[#151515]">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle className="text-xl font-semibold">
             Create New Index
@@ -175,19 +175,21 @@ export const CreateIndexModal: React.FC<CreateIndexModalProps> = ({
           )}
 
           <div
-            className={`${tokens.length > 3 ? "grid grid-cols-2 gap-4" : ""}`}
+            className={`${
+              tokens.length > 3 ? "grid grid-cols-2 gap-4" : "space-y-2"
+            }`}
           >
             {tokens.map((token, index) => (
               <div
                 key={index}
-                className="p-4 border rounded-lg space-y-4 h-full"
+                className="p-4 border border-[#151515] rounded-lg space-y-4 h-full"
               >
                 <div className="flex items-center justify-between">
                   <Select
                     value={token.symbol}
                     onValueChange={(value) => handleTokenChange(index, value)}
                   >
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-[180px] border border-[#151515]">
                       <SelectValue>
                         <div className="flex items-center gap-2">
                           <img
@@ -262,6 +264,7 @@ export const CreateIndexModal: React.FC<CreateIndexModalProps> = ({
               variant="outline"
               onClick={handleAddToken}
               disabled={availableTokens.length === 0}
+              className="bg-[#fdfdf2] border-[#151515]"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Token
