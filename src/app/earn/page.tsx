@@ -3,8 +3,11 @@ import { Card } from "@/components/Card";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { CreateIndexModal } from "@/components/CreateIndexModal";
 import { Index } from "@/types";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { NearContext } from "@/wallets/near";
+import { IndexFundContract } from "@/config";
+import { useGetFunds } from "@/hooks/useGetFunds";
 
 const indices: Index[] = [
   {
@@ -94,10 +97,13 @@ const buttonVariants = {
   tap: { scale: 0.95 },
 };
 
+const CONTRACT = IndexFundContract;
+
 export default function Earn() {
   const [modalVisible, setModalVisible] = useState(false);
   const [createIndexModalVisible, setCreateIndexModalVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<Index | null>(null);
+  const { signedAccountId, wallet } = useContext(NearContext);
 
   const handleSelectIndex = (index: Index) => {
     setSelectedIndex(index);
@@ -112,6 +118,19 @@ export default function Earn() {
     setCreateIndexModalVisible(true);
   };
 
+  const { funds, isLoading, error, fetchFunds } = useGetFunds(wallet);
+
+  useEffect(() => {
+    if (wallet) {
+      fetchFunds();
+    }
+  }, [wallet, fetchFunds]);
+
+  useEffect(() => {
+    console.log(funds);
+    console.log(isLoading);
+    console.log(error);
+  });
   return (
     <motion.div
       className="min-h-screen pt-28 px-20"

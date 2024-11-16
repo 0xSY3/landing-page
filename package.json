@@ -20,6 +20,7 @@
     "@near-wallet-selector/my-near-wallet": "^8.9.13",
     "@near-wallet-selector/sender": "^8.9.13",
     "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slider": "^1.2.1",
     "@radix-ui/react-slot": "^1.1.0",
