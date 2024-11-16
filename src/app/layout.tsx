@@ -6,14 +6,14 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 import { Navigation } from "@/components/Navigation";
-import { HelloNearContract, NetworkId } from "@/config";
+import { IndexFundContract, NetworkId } from "@/config";
 
 import { NearContext, Wallet } from "@/wallets/near";
 import { Footer } from "@/components/Footer";
 
 const wallet = new Wallet({
   networkId: NetworkId,
-  createAccessKeyFor: HelloNearContract,
+  createAccessKeyFor: IndexFundContract,
 });
 
 const giuconda = localFont({
