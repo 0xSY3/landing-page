@@ -103,7 +103,7 @@ export default function Earn() {
   const [modalVisible, setModalVisible] = useState(false);
   const [createIndexModalVisible, setCreateIndexModalVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<Index | null>(null);
-  const { signedAccountId, wallet } = useContext(NearContext);
+  const { wallet } = useContext(NearContext);
 
   const handleSelectIndex = (index: Index) => {
     setSelectedIndex(index);

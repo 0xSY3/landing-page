@@ -3,6 +3,11 @@ const contractPerNetwork = {
   testnet: "indexer-3.testnet",
 };
 
+const tokenContractPerNetwork = {
+  mainnet: "wrap.near",
+  testnet: "index-4.testnet",
+};
+
 // Chains for EVM Wallets
 const evmWalletChains = {
   mainnet: {
@@ -21,4 +26,5 @@ const evmWalletChains = {
 
 export const NetworkId = "testnet";
 export const IndexFundContract = contractPerNetwork[NetworkId];
+export const IndexFundTokenContract = tokenContractPerNetwork[NetworkId];
 export const EVMWalletChain = evmWalletChains[NetworkId];

@@ -25,9 +25,17 @@ export const Navigation = () => {
   const pathName = usePathname();
 
   const [ethAddress, setEthAddress] = useState<string>("");
-  const [derivation] = useState(
-    sessionStorage.getItem("derivation") || "ethereum-1"
-  );
+  const [derivation, setDerivation] = useState("ethereum-1");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedDerivation = sessionStorage.getItem("derivation");
+      if (storedDerivation) {
+        setDerivation(storedDerivation);
+      }
+    }
+  }, []);
+
   const derivationPath = useDebounce(derivation, 1200);
 
   useEffect(() => {
