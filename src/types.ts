@@ -2,7 +2,7 @@ export interface Index {
   symbols: Symbol[];
 }
 
-interface Symbol {
+export interface Symbol {
   symbol: string;
   icon: string;
   percentange: number;

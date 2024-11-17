@@ -205,7 +205,6 @@ export const CreateIndexModal: React.FC<CreateIndexModalProps> = ({
     setError(null);
 
     try {
-      // Prepare the metadata object according to contract structure
       const fundMetadata = {
         name: metadata.name,
         symbol: metadata.symbol,

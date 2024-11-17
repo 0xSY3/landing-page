@@ -30,7 +30,7 @@ export const useGetFunds = (wallet: any): GetFundsResult => {
       setError(null);
 
       try {
-        const response: [string, Fund][] = await wallet.viewMethod({
+        const response: any = await wallet.viewMethod({
           contractId: IndexFundContract,
           method: "get_funds",
           args: {
@@ -38,8 +38,8 @@ export const useGetFunds = (wallet: any): GetFundsResult => {
             limit,
           },
         });
-
-        setFunds(response);
+        const result = decodeResult(response.result.result);
+        setFunds(result);
       } catch (err) {
         console.error("Failed to fetch funds:", err);
         setError("Failed to fetch funds. Please try again.");

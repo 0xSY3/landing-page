@@ -6,20 +6,19 @@ import { Index } from "@/types";
 import { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { NearContext } from "@/wallets/near";
-import { IndexFundContract } from "@/config";
-import { useGetFunds } from "@/hooks/useGetFunds";
+import { useGetFetchAssets } from "@/hooks/useFetchAssets";
 
 const indices: Index[] = [
   {
     symbols: [
       {
-        symbol: "BTC",
-        icon: "/icons/bitcoin.png",
+        symbol: "ETH",
+        icon: "/icons/ethereum.png",
         percentange: 50.0,
       },
       {
-        symbol: "ETH",
-        icon: "/icons/ethereum.png",
+        symbol: "AURORA",
+        icon: "/icons/aurora.png",
         percentange: 50.0,
       },
     ],
@@ -27,19 +26,19 @@ const indices: Index[] = [
   {
     symbols: [
       {
+        symbol: "BTC",
+        icon: "/icons/bitcoin.png",
+        percentange: 50.0,
+      },
+      {
         symbol: "ETH",
         icon: "/icons/ethereum.png",
         percentange: 40.0,
       },
       {
-        symbol: "BTC",
-        icon: "/icons/bitcoin.png",
-        percentange: 40.0,
-      },
-      {
-        symbol: "AURORA",
-        icon: "/icons/aurora.png",
-        percentange: 20.0,
+        symbol: "USDC",
+        icon: "/icons/usdc.png",
+        percentange: 10.0,
       },
     ],
   },
@@ -97,8 +96,6 @@ const buttonVariants = {
   tap: { scale: 0.95 },
 };
 
-const CONTRACT = IndexFundContract;
-
 export default function Earn() {
   const [modalVisible, setModalVisible] = useState(false);
   const [createIndexModalVisible, setCreateIndexModalVisible] = useState(false);
@@ -118,18 +115,16 @@ export default function Earn() {
     setCreateIndexModalVisible(true);
   };
 
-  const { funds, isLoading, error, fetchFunds } = useGetFunds(wallet);
+  const { assets, isLoading, error, fetchAssets } = useGetFetchAssets(wallet);
 
   useEffect(() => {
     if (wallet) {
-      fetchFunds();
+      fetchAssets();
     }
-  }, [wallet, fetchFunds]);
+  }, [wallet, fetchAssets]);
 
   useEffect(() => {
-    console.log(funds);
-    console.log(isLoading);
-    console.log(error);
+    console.log("fetching funds:", assets);
   });
   return (
     <motion.div
@@ -179,7 +174,7 @@ export default function Earn() {
       </motion.div>
       {selectedIndex && (
         <ConfirmationModal
-          index={selectedIndex}
+          symbols={selectedIndex.symbols}
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
         />

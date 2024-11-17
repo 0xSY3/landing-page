@@ -11,26 +11,66 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { X, Lock } from "lucide-react";
-import { Index } from "@/types";
+import { Symbol } from "@/types";
 import Image from "next/image";
+import { NearContext } from "@/wallets/near";
+import { IndexFundTokenContract, UsdtContract } from "@/config";
 
 interface ConfirmationModalProps {
-  index: Index;
+  symbols: Symbol[];
   visible: boolean;
   onClose: () => void;
 }
+
+const CONTRACT = UsdtContract;
+const TOKENCONTRACT = IndexFundTokenContract;
+
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
-  index,
+  symbols,
+  onClose,
+  visible,
 }) => {
   const [open, setOpen] = React.useState(true);
-  const [amount, setAmount] = React.useState("50");
+  const [amount, setAmount] = React.useState("0");
+  const { signedAccountId, wallet } = React.useContext(NearContext);
+  const [error, setError] = React.useState<string | null>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
 
+  const buy = async () => {
+    if (!wallet) {
+      setError("Wallet not connected");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const scaledAmount = (Number(amount) * 1_000_000).toString();
+      await wallet.callMethod({
+        contractId: CONTRACT,
+        method: "ft_transfer_call",
+        args: {
+          msg: "",
+          amount: scaledAmount,
+          receiver_id: TOKENCONTRACT,
+        },
+        gas: "300000000000000",
+        deposit: "1",
+      });
+    } catch (error) {
+      console.error("Failed to create fund:", error);
+      setError("Failed to create fund. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px] p-8 bg-[#fdfdf2] border-2 border-[#151515]">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle className="text-xl font-semibold">
-            {index.symbols.map((symbol) => symbol.symbol).join("-")}
+            {symbols.map((symbol) => symbol.symbol).join("-")}
           </DialogTitle>
           <Button
             variant="ghost"
@@ -74,7 +114,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <div>
             <h3 className="text-base font-medium mb-4">Token Composition</h3>
             <div className="grid gap-4">
-              {index.symbols.map((symbol, symbolKey) => (
+              {symbols.map((symbol, symbolKey) => (
                 <div className="p-4 border border-[#151515] rounded-lg">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
@@ -87,14 +127,16 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                     </div>
                     <Lock className="h-4 w-4 text-muted-foreground" />
                   </div>
-                  <div className="mb-2 text-right">50%</div>
-                  <Slider
-                    defaultValue={[50]}
+                  <div className="flex flex-row items-center justify-between">
+                    <div className="text-right">{symbol.percentange}%</div>
+                    {/* <Slider
+                    defaultValue={[symbol.percentange]}
                     max={100}
                     step={1}
                     className="mb-2"
-                  />
-                  <div className="font-medium">$25.00</div>
+                  /> */}
+                    {/* <div className="font-medium">$25.00</div> */}
+                  </div>
                 </div>
               ))}
             </div>
@@ -104,7 +146,9 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             <Button variant="outline" className="bg-[#fdfdf2] border-[#151515]">
               Reset Compositions
             </Button>
-            <Button className="bg-[#151515] hover:bg-black/90">Buy</Button>
+            <Button onClick={buy} className="bg-[#151515] hover:bg-black/90">
+              Buy
+            </Button>
           </div>
         </div>
       </DialogContent>
