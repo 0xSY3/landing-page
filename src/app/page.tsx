@@ -6,11 +6,31 @@ import React from "react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#fbfbe4] pt-28 px-40">
-      <HeroSection />
-      <LogoTicker />
-      <FeaturesSection />
-      <RoadmapSection />
-    </div>
+    <main className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+      {/* Add subtle background pattern */}
+      <div className="absolute inset-0 z-0 opacity-5">
+        <div className="absolute inset-0" style={{ 
+          backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', 
+          backgroundSize: '30px 30px' 
+        }}></div>
+      </div>
+
+      {/* Main content with proper spacing */}
+      <div className="relative z-10">
+        <HeroSection />
+        <div className="relative">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4ADE80]/20 to-transparent"></div>
+          <LogoTicker />
+        </div>
+        <div className="relative">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4ADE80]/20 to-transparent"></div>
+          <FeaturesSection />
+        </div>
+        <div className="relative">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4ADE80]/20 to-transparent"></div>
+          <RoadmapSection />
+        </div>
+      </div>
+    </main>
   );
 }

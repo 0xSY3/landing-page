@@ -1,46 +1,43 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Network, LineChart, Lock } from "lucide-react";
+import { Brain, HeartPulse, Globe, Phone, Clock, Shield } from "lucide-react";
 
 const roadmapItems = [
   {
     quarter: "Q3 2024",
-    title: "Platform Launch & Initial Features",
-    description:
-      "Launch of core platform with basic cross-chain capabilities and initial index funds",
+    title: "AI Voice Platform Launch",
+    description: "Launch of core AI voice platform with initial features and capabilities",
     milestones: [
-      "Cross-chain infrastructure setup",
-      "Basic index fund creation",
-      "Wallet integration",
+      "24/7 AI call assistance",
+      "Voice recognition system",
+      "Basic AI twin creation",
     ],
-    Icon: Network,
+    Icon: Phone,
     status: "current",
   },
   {
     quarter: "Q4 2024",
-    title: "Advanced Portfolio Features",
-    description:
-      "Introduction of sophisticated portfolio management tools and expanded chain support",
+    title: "Advanced AI Features",
+    description: "Introduction of sophisticated AI models and expanded service categories",
     milestones: [
-      "Automated rebalancing",
-      "Yield optimization",
-      "Additional chain integration",
+      "Healthcare assistance integration",
+      "Travel planning features",
+      "Enhanced AI personalization",
     ],
-    Icon: LineChart,
+    Icon: Brain,
     status: "upcoming",
   },
   {
     quarter: "Q1 2025",
-    title: "Enhanced Security & Governance",
-    description:
-      "Implementation of advanced security features and community governance",
+    title: "Enhanced Security & Scale",
+    description: "Implementation of advanced security features and global expansion",
     milestones: [
-      "Multi-sig wallet integration",
-      "DAO governance launch",
-      "Security audits completion",
+      "End-to-end encryption",
+      "Multi-language support",
+      "Global infrastructure deployment",
     ],
-    Icon: Lock,
+    Icon: Shield,
     status: "upcoming",
   },
 ];
@@ -71,20 +68,26 @@ const itemVariants = {
 
 export function RoadmapSection() {
   return (
-    <section className="py-20 md:py-24 bg-[#fbfbe4]">
-      <div className="container mx-auto px-6">
+    <section className="py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#4ADE80] opacity-10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#4ADE80] opacity-10 rounded-full blur-3xl"></div>
+
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-[#151515] text-5xl md:text-6xl font-medium tracking-tighter mb-4">
-            Our Roadmap for the Future
-          </h2>
-          <p className="text-[#151515]/70 text-lg md:text-xl max-w-2xl mx-auto tracking-tight">
-            Building the next generation of cross-chain DeFi
+          <span className="inline-block px-4 py-1.5 bg-[#4ADE80]/10 text-[#4ADE80] 
+            rounded-full text-sm font-semibold mb-4">
+            Roadmap
+          </span>
+          <h2 className="text-4xl font-bold mb-4">Building the Future of AI Assistance</h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Our journey to revolutionize voice-based AI interactions
           </p>
         </motion.div>
 
@@ -95,7 +98,7 @@ export function RoadmapSection() {
           viewport={{ once: true }}
           className="relative"
         >
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#151515]/50 to-transparent" />
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#4ADE80]/30 to-transparent" />
 
           {roadmapItems.map((item, index) => (
             <motion.div
@@ -105,73 +108,55 @@ export function RoadmapSection() {
                 index % 2 === 0 ? "md:flex-row-reverse" : ""
               }`}
             >
-              <div
-                className={`absolute left-8 md:left-1/2 w-8 h-8 -translate-x-1/2 rounded-full border-2 
-                                ${
-                                  item.status === "current"
-                                    ? "border-[#151515] bg-[#151515]/10"
-                                    : "border-[#151515]/30 bg-[#fbfbe4]"
-                                }`}
+              {/* Timeline Node */}
+              <div className={`absolute left-8 md:left-1/2 w-8 h-8 -translate-x-1/2 rounded-full
+                ${item.status === "current" 
+                  ? "bg-[#4ADE80]/20 ring-2 ring-[#4ADE80]" 
+                  : "bg-white ring-2 ring-gray-200"}`}
               >
-                <item.Icon
-                  className={`w-4 h-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-                                    ${
-                                      item.status === "current"
-                                        ? "text-[#151515]"
-                                        : "text-[#151515]/50"
-                                    }`}
-                />
+                <item.Icon className={`w-4 h-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                  ${item.status === "current" ? "text-[#4ADE80]" : "text-gray-400"}`} />
               </div>
 
-              <div
-                className={`w-full md:w-[calc(50%-3rem)] pl-20 md:pl-0 ${
-                  index % 2 === 0 ? "md:text-right" : ""
-                }`}
-              >
+              {/* Content Card */}
+              <div className={`w-full md:w-[calc(50%-3rem)] pl-20 md:pl-0 ${
+                index % 2 === 0 ? "md:text-right" : ""
+              }`}>
                 <motion.div
-                  className={`p-6 md:p-8 rounded-xl border-2 bg-white/50 backdrop-blur-sm
-                                        ${
-                                          item.status === "current"
-                                            ? "border-[#151515] hover:bg-white/80"
-                                            : "border-[#151515]/20 hover:border-[#151515]/40"
-                                        } 
-                                        transition-all group`}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
+                  className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all duration-500
+                    group hover:-translate-y-1"
+                  whileHover={{ scale: 1.01 }}
+                  transition={{ duration: 0.3 }}
                 >
+                  {/* Quarter Badge */}
                   <div className="mb-4">
-                    <span
-                      className={`inline-block px-3 py-1 rounded-full text-sm font-medium
-                                            ${
-                                              item.status === "current"
-                                                ? "bg-[#151515] text-[#fbfbe4]"
-                                                : "bg-[#151515]/10 text-[#151515]"
-                                            }`}
+                    <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-semibold
+                      ${item.status === "current" 
+                        ? "bg-[#4ADE80] text-white" 
+                        : "bg-gray-100 text-gray-600"}`}
                     >
                       {item.quarter}
                     </span>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-medium tracking-tight mb-3 text-[#151515]">
-                    {item.title}
-                  </h3>
-                  <p className="text-[#151515]/70 tracking-tight mb-4">
-                    {item.description}
-                  </p>
-                  <ul
-                    className={`space-y-2 text-sm ${
-                      index % 2 === 0 ? "md:text-right" : ""
-                    }`}
-                  >
+
+                  {/* Title and Description */}
+                  <h3 className="text-2xl font-semibold mb-3">{item.title}</h3>
+                  <p className="text-gray-600 mb-6">{item.description}</p>
+
+                  {/* Milestones */}
+                  <ul className={`space-y-3 ${index % 2 === 0 ? "md:text-right" : ""}`}>
                     {item.milestones.map((milestone, idx) => (
-                      <li
-                        key={idx}
-                        className="text-[#151515]/70 flex items-center gap-2"
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#151515]/50" />
-                        {milestone}
+                      <li key={idx} className="flex items-center gap-3 text-gray-600">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#4ADE80]" />
+                        <span className="flex-grow">{milestone}</span>
                       </li>
                     ))}
                   </ul>
+
+                  {/* Hover Effects */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r 
+                    from-transparent via-[#4ADE80]/50 to-transparent scale-x-0 group-hover:scale-x-100 
+                    transition-transform duration-500"></div>
                 </motion.div>
               </div>
             </motion.div>

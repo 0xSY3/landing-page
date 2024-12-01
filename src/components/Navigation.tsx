@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
@@ -10,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { NearContext } from "@/wallets/near";
-import { Github, ChevronDown } from "lucide-react";
+import { Github, ChevronDown, Phone, Brain, Settings, LogOut, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useDebounce } from "@/hooks/debounce";
 import { Ethereum } from "@/lib/ethereum";
@@ -27,85 +29,64 @@ export const Navigation = () => {
   const [ethAddress, setEthAddress] = useState<string>("");
   const [derivation, setDerivation] = useState("ethereum-1");
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedDerivation = sessionStorage.getItem("derivation");
-      if (storedDerivation) {
-        setDerivation(storedDerivation);
-      }
-    }
-  }, []);
-
-  const derivationPath = useDebounce(derivation, 1200);
-
-  useEffect(() => {
-    if (!wallet) return;
-
-    if (signedAccountId) {
-      setAction(() => wallet.signOut);
-      setLabel(`${signedAccountId}`);
-    } else {
-      setAction(() => wallet.signIn);
-      setLabel("Connect Wallet");
-    }
-  }, [signedAccountId, wallet]);
-
-  useEffect(() => {
-    const fetchEthAddress = async () => {
-      if (!signedAccountId) return;
-
-      try {
-        const { address } = await Eth.deriveAddress(
-          signedAccountId,
-          derivationPath
-        );
-        setEthAddress(address);
-      } catch (error) {
-        console.error("Error fetching ETH address:", error);
-      }
-    };
-
-    fetchEthAddress();
-  }, [signedAccountId, derivationPath]);
 
   const renderWalletButton = () => {
     if (!signedAccountId) {
       return (
         <button
-          className="px-8 py-2 border-[#151515] border rounded-full"
           onClick={wallet?.signIn}
+          className="relative group px-8 py-3 bg-[#4ADE80] text-white rounded-full 
+            shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300
+            flex items-center gap-2 font-medium"
         >
-          Connect Wallet
+          <Phone className="w-4 h-4" />
+          Start AI Call
+          <div className="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full 
+            opacity-0 group-hover:opacity-100 group-hover:animate-pulse"></div>
         </button>
       );
     }
 
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger className="px-8 py-2 border-[#151515] border rounded-full inline-flex items-center gap-2">
-          {label}
-          <ChevronDown className="h-4 w-4" />
+        <DropdownMenuTrigger className="relative group px-6 py-3 bg-white text-gray-800 rounded-full 
+          shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300
+          inline-flex items-center gap-2">
+          <div className="w-8 h-8 bg-[#4ADE80]/10 rounded-full flex items-center justify-center">
+            <User className="w-4 h-4 text-[#4ADE80]" />
+          </div>
+          <span className="font-medium">{label.slice(0, 6)}...{label.slice(-4)}</span>
+          <ChevronDown className="h-4 w-4 text-gray-400" />
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className="w-[400px] bg-[#fbfbe4] border border-[#151515] rounded-xl"
+          className="w-[400px] bg-white rounded-xl shadow-xl border border-gray-100 p-2"
         >
-          <DropdownMenuLabel>Wallet Details</DropdownMenuLabel>
-          <DropdownMenuSeparator className="border-b border-[#151515]" />
-          <DropdownMenuItem className="flex flex-col items-start">
-            <span className="text-sm font-medium">NEAR Address</span>
-            <span className="text-sm text-gray-600 break-all">
+          <DropdownMenuLabel className="px-3 py-2 text-gray-500 text-sm">Account Details</DropdownMenuLabel>
+          <DropdownMenuSeparator className="bg-gray-100" />
+          
+          <DropdownMenuItem className="flex flex-col items-start p-3 focus:bg-[#4ADE80]/5 rounded-lg">
+            <span className="text-sm font-medium text-gray-600">NEAR Address</span>
+            <span className="text-sm text-gray-500 break-all mt-1">
               {signedAccountId}
             </span>
           </DropdownMenuItem>
-          <DropdownMenuItem className="flex flex-col items-start">
-            <span className="text-sm font-medium">ETH Address</span>
-            <span className="text-sm text-gray-600 break-all">
+          
+          <DropdownMenuItem className="flex flex-col items-start p-3 focus:bg-[#4ADE80]/5 rounded-lg">
+            <span className="text-sm font-medium text-gray-600">ETH Address</span>
+            <span className="text-sm text-gray-500 break-all mt-1">
               {ethAddress || "Loading..."}
             </span>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className="border-b border-[#151515]" />
-          <DropdownMenuItem onClick={wallet?.signOut} className="text-red-600">
+          
+          <DropdownMenuSeparator className="bg-gray-100" />
+          
+          <DropdownMenuItem 
+            onClick={wallet?.signOut}
+            className="p-3 text-red-500 focus:text-red-600 focus:bg-red-50 rounded-lg
+              flex items-center gap-2"
+          >
+            <LogOut className="w-4 h-4" />
             Disconnect
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -115,47 +96,60 @@ export const Navigation = () => {
 
   return (
     <nav className="w-full">
-      <div className="fixed w-full flex flex-row gap-20 p-6 items-center bg-[#fbfbe4] z-40">
-        <Link href="/" className="inline-flex gap-4 items-center">
-          <Image
-            priority
-            src="/logo_black.png"
-            alt="Logo"
-            width="30"
-            height="24"
-            className="object-contain"
-          />
-          <span className="text-lg font-bold">NexusFi</span>
-        </Link>
-        <div className="flex flex-row gap-10">
-          <Link href="/" className="opacity-50">
-            Home
+      <div className="fixed w-full flex flex-row items-center justify-between px-8 py-6 
+        bg-white/80 backdrop-blur-lg z-40 border-b border-gray-100">
+        <div className="flex items-center gap-20">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="p-2 bg-[#4ADE80]/10 rounded-xl 
+              group-hover:bg-[#4ADE80]/20 transition-colors duration-300">
+              <Brain className="w-6 h-6 text-[#4ADE80]" />
+            </div>
+            <span className="text-xl font-semibold">AlphaVox</span>
           </Link>
-          <Link href="https://github.com/Nexusfi-org" className="opacity-50">
-            Docs
-          </Link>
-          <Link href="/about" className="opacity-50">
-            About
-          </Link>
-        </div>
-        {pathName === "/" ? (
-          <Link
-            href="/earn"
-            className="px-8 py-2 border-[#151515] border rounded-full ml-auto"
-          >
-            Launch App
-          </Link>
-        ) : (
-          <div className="ml-auto inline-flex gap-2">
-            {renderWalletButton()}
-            <Link
-              href="https://github.com/thedudeontitan/nexusfi"
-              className="flex bg-[#151515] text-[#fbfbe4] rounded-full p-2 items-center"
-            >
-              <Github />
-            </Link>
+
+          <div className="flex items-center gap-8">
+            {[
+              { label: "Home", href: "/" },
+              { label: "Services", href: "/services" },
+              { label: "About", href: "/about" }
+            ].map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`text-gray-600 hover:text-[#4ADE80] transition-colors duration-300
+                  ${pathName === item.href ? 'text-[#4ADE80]' : ''}`}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
-        )}
+        </div>
+
+        <div className="flex items-center gap-4">
+          {pathName === "/" ? (
+            <Link
+              href="/dashboard"
+              className="px-8 py-3 bg-[#4ADE80] text-white rounded-full 
+                shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300
+                flex items-center gap-2 font-medium"
+            >
+              <Phone className="w-4 h-4" />
+              Start AI Call
+            </Link>
+          ) : (
+            <>
+              {renderWalletButton()}
+              <Link
+                href="https://github.com/alphavox"
+                className="p-3 bg-white text-gray-700 rounded-full shadow-lg
+                  hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300
+                  flex items-center justify-center"
+              >
+                <Github className="w-5 h-5" />
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
